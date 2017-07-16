@@ -10,9 +10,13 @@ namespace ExemptionAssignment.Models
     /// </summary>
     public class Contact
     {
+        public Contact()
+        {
+            //default constructor for XML, maybe not be necessary in this case
+        }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        //For simplicity's sake, I will allow a max of 3 phone numbers
+        //For simplicity's sake, I will allow a max of 2 phone numbers from the GUI
         public List<string> PhoneNumbers { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }

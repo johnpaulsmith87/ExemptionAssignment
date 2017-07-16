@@ -27,21 +27,32 @@ namespace ExemptionAssignment.Models
         {
             Owners = owners;
             Balance = initialBalance;
-            InterestRate = 5.00F;
+            InterestRate = 5.00F; //as percentage
         }
         public override Message CalculateInterest()
         {
-            throw new NotImplementedException();
+            Balance += Balance * (InterestRate / 100);
+            return Message.CalculatedInterestUpdate;
         }
 
-        public override Message Credit(float creditAmount)
+        public override Message Credit(CreditTransaction creditDetails)
         {
-            throw new NotImplementedException();
+            Balance += creditDetails.Amount;
+            return Message.AccountCreditSuccess;
         }
 
-        public override Message Debit(float debitAmount)
+        public override Message Debit(DebitTransaction debitDetails)
         {
-            throw new NotImplementedException();
+            //need to write util class for XML fetching/saving will do before GUI work
+            if (debitDetails.Amount + 1 > Balance)
+                return Message.SavingsNegativeBalance;
+            else
+            {
+                Balance -= debitDetails.Amount;
+                //save XML to file or do it at controller level (probably better)
+                DebitTransactionHistory.Add(debitDetails);
+                return Message.AccountDebitSuccess;
+            }
         }
     }
     /// <summary>
@@ -57,21 +68,43 @@ namespace ExemptionAssignment.Models
         {
             Owners = owners;
             Balance = initialBalance;
-            InterestRate = 4.50F;
+            InterestRate = 5.25F;
         }
         public override Message CalculateInterest()
         {
-            throw new NotImplementedException();
+            
+            var OrderedTransactionHistory = DebitTransactionHistory.OrderByDescending(deb => deb.Timestamp);
+            if (OrderedTransactionHistory.Count() == 0 || TimeSpan.FromDays(30.0d) >= DateTime.Now.Subtract(OrderedTransactionHistory.First().Timestamp))
+            {
+                //add interest
+                Balance += Balance * (InterestRate / 100);
+                return Message.CalculatedInterestUpdate;
+            }
+            else
+            {
+                //do not add interest
+                return Message.NoInterestAdded;
+            }
+            
         }
 
-        public override Message Credit(float creditAmount)
+        public override Message Credit(CreditTransaction creditDetails)
         {
-            throw new NotImplementedException();
+            Balance += creditDetails.Amount;
+            return Message.AccountCreditSuccess;
         }
 
-        public override Message Debit(float debitAmount)
+        public override Message Debit(DebitTransaction debitDetails)
         {
-            throw new NotImplementedException();
+            if (debitDetails.Amount + 1 > Balance)
+                return Message.SavingsNegativeBalance;
+            else
+            {
+                Balance -= debitDetails.Amount;
+                //save XML to file or do it at controller level (probably better)
+                DebitTransactionHistory.Add(debitDetails);
+                return Message.AccountDebitSuccess;
+            }
         }
     }
     /// <summary>
@@ -84,12 +117,12 @@ namespace ExemptionAssignment.Models
             throw new NotImplementedException();
         }
 
-        public override Message Credit(float creditAmount)
+        public override Message Credit(CreditTransaction creditDetails)
         {
             throw new NotImplementedException();
         }
 
-        public override Message Debit(float debitAmount)
+        public override Message Debit(DebitTransaction debitDetails)
         {
             throw new NotImplementedException();
         }

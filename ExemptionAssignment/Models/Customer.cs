@@ -14,5 +14,7 @@ namespace ExemptionAssignment.Models
         //Guid is used here to make creating new customers simpler (i.e no need to check existing ids then iterate)
         public Guid CustomerID { get; set; }
         public Contact ContactInformation { get; set; }
+
+        public float OverdraftLimit { get; set; }
     }
 }

@@ -15,15 +15,15 @@ namespace ExemptionAssignment.Models
             //Default constructor for XML serialisation/deserialisation
         }
         public BusinessCustomer Owner { get; set; }
-        public override float CalculateInterest()
+        public override Message CalculateInterest()
         {
             throw new NotImplementedException();
         }
-        public override float Credit(float creditAmount)
+        public override Message Credit(CreditTransaction creditDetails)
         {
             throw new NotImplementedException();
         }
-        public override float Debit(float debitAmount)
+        public override Message Debit(DebitTransaction debitDetails)
         {
             throw new NotImplementedException();
         }

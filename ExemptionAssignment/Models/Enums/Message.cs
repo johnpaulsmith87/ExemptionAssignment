@@ -13,6 +13,9 @@ namespace ExemptionAssignment.Models
         CreateBusinessCustomerSuccess,
         CreatePrivateAccountSuccess,
         CreateBusinessAccountSuccess,
-        Error
+        SavingsNegativeBalance,
+        Error,
+        CalculatedInterestUpdate,
+        NoInterestAdded
     }
 }
