@@ -16,6 +16,8 @@ namespace ExemptionAssignment.Models
         SavingsNegativeBalance,
         Error,
         CalculatedInterestUpdate,
-        NoInterestAdded
+        NoInterestAdded,
+        ExceedsOverdraftLimit,
+        OverdraftedDebit
     }
 }

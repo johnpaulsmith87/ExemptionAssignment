@@ -1,0 +1,16 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <div style="height:100%; width:100%;">
+        <div class="row">
+            <div class="jumbotron h4"> Choose a type of customer to create:</div>
+        </div>
+        <div class="row">
+            <ul class="list-inline">
+                <li><a href="@Url.Action("NewPrivate","Customer")" class="btn btn-primary">Private Customer</a></li>
+                <li><a href="@Url.Action("NewBusiness","Customer")" class="btn btn-primary">Business Customer</a></li>
+            </ul>
+        </div>
+    </div>
+}

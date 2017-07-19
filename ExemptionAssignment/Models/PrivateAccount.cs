@@ -35,22 +35,21 @@ namespace ExemptionAssignment.Models
             return Message.CalculatedInterestUpdate;
         }
 
-        public override Message Credit(CreditTransaction creditDetails)
+        public override Message Credit(float amount)
         {
-            Balance += creditDetails.Amount;
+            Balance += amount;
             return Message.AccountCreditSuccess;
         }
 
-        public override Message Debit(DebitTransaction debitDetails)
+        public override Message Debit(float amount)
         {
             //need to write util class for XML fetching/saving will do before GUI work
-            if (debitDetails.Amount + 1 > Balance)
+            if (amount + 1 > Balance)
                 return Message.SavingsNegativeBalance;
             else
             {
-                Balance -= debitDetails.Amount;
+                Balance -= amount;
                 //save XML to file or do it at controller level (probably better)
-                DebitTransactionHistory.Add(debitDetails);
                 return Message.AccountDebitSuccess;
             }
         }
@@ -60,6 +59,7 @@ namespace ExemptionAssignment.Models
     /// </summary>
     public class BonusSavingsAccount : PrivateAccount
     {
+
         public BonusSavingsAccount()
         {
             //default constructor for XML
@@ -69,12 +69,12 @@ namespace ExemptionAssignment.Models
             Owners = owners;
             Balance = initialBalance;
             InterestRate = 5.25F;
+            LastDebit = DateTime.Now;
         }
+        public DateTime LastDebit { get; set; }
         public override Message CalculateInterest()
         {
-            
-            var OrderedTransactionHistory = DebitTransactionHistory.OrderByDescending(deb => deb.Timestamp);
-            if (OrderedTransactionHistory.Count() == 0 || TimeSpan.FromDays(30.0d) >= DateTime.Now.Subtract(OrderedTransactionHistory.First().Timestamp))
+            if (LastDebit == default(DateTime) || TimeSpan.FromDays(30) >= DateTime.Now.Subtract(LastDebit))
             {
                 //add interest
                 Balance += Balance * (InterestRate / 100);
@@ -84,27 +84,30 @@ namespace ExemptionAssignment.Models
             {
                 //do not add interest
                 return Message.NoInterestAdded;
-            }
-            
+            }         
         }
 
-        public override Message Credit(CreditTransaction creditDetails)
+        public override Message Credit(float amount)
         {
-            Balance += creditDetails.Amount;
+            Balance += amount;
             return Message.AccountCreditSuccess;
         }
 
-        public override Message Debit(DebitTransaction debitDetails)
+        public override Message Debit(float amount)
         {
-            if (debitDetails.Amount + 1 > Balance)
+            if (amount + 1 > Balance)
                 return Message.SavingsNegativeBalance;
             else
             {
-                Balance -= debitDetails.Amount;
+                Balance -= amount;
                 //save XML to file or do it at controller level (probably better)
-                DebitTransactionHistory.Add(debitDetails);
+                LastDebit = DateTime.Now;
                 return Message.AccountDebitSuccess;
             }
+        }
+        public void ResetDebitCounter()
+        {
+            LastDebit = default(DateTime);
         }
     }
     /// <summary>
@@ -112,19 +115,56 @@ namespace ExemptionAssignment.Models
     /// </summary>
     public class OverdraftAccount : PrivateAccount
     {
+        public float OverdraftLimit { get; set; }
+        public float OverdraftInterest { get; set; } //used for calc interest owed on overdraft
+        public OverdraftAccount()
+        {
+            //default constructor for XML
+        }
+        public OverdraftAccount(float initialBalance, List<PrivateCustomer> owners, float overdraftLimit)
+        {
+            OverdraftLimit = overdraftLimit;
+            Owners = owners;
+            Balance = initialBalance;
+            InterestRate = 3.00F;
+            OverdraftInterest = 3.25F;
+        }
         public override Message CalculateInterest()
         {
-            throw new NotImplementedException();
+            if(Balance < 0)
+            {
+                //apply interest rate to overdraft amount
+                Balance -= Balance * (OverdraftInterest / 100);
+            }
+            else
+            {
+                Balance += Balance * (InterestRate / 100);
+            }
+            return Message.CalculatedInterestUpdate;
         }
 
-        public override Message Credit(CreditTransaction creditDetails)
+        public override Message Credit(float amount)
         {
-            throw new NotImplementedException();
+            Balance += amount;
+            return Message.AccountCreditSuccess;
         }
 
-        public override Message Debit(DebitTransaction debitDetails)
+        public override Message Debit(float amount)
         {
-            throw new NotImplementedException();
+            if(amount > Balance + OverdraftLimit)
+            {
+                return Message.ExceedsOverdraftLimit;
+            }
+            else if(amount > Balance)
+            {
+                Balance -= amount;
+                return Message.OverdraftedDebit; //not sure if necessary
+            }
+            else
+            {
+                Balance -= amount;
+                return Message.AccountDebitSuccess;
+            }
         }
     }
 }

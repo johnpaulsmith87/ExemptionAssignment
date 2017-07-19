@@ -11,14 +11,12 @@ namespace ExemptionAssignment.Models
     public abstract class Account
     {
         public float Balance { get; set; }
-        public float InterestRate { get; set; }
+        public virtual float InterestRate { get; set;}
         public Guid AccountID { get; set; }
-        public List<CreditTransaction> CreditTransactionHistory { get; set; }
-        public List<DebitTransaction> DebitTransactionHistory { get; set; }
-        public List<AccountTransfer> TransferHistory { get; set; }
+
         //The following methods will return updated balances. See the child classes for implementations
         public abstract Message CalculateInterest();
-        public abstract Message Debit(DebitTransaction debitDetails);
-        public abstract Message Credit(CreditTransaction creditDetails);
+        public abstract Message Debit(float amount);
+        public abstract Message Credit(float amount);
     }
 }
