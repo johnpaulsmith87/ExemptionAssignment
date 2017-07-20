@@ -1,5 +1,43 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model NewBusinessAccountViewModel
 @{
+
 }
+<div style="height:100%; width:100%;">
+    <div class="row">
+        <div class="jumbotron h4"> Enter details for new business account</div>
+    </div>
+    <form class="form" asp-controller="Account" asp-action="NewBusiness" enctype="multipart/form-data" name="upload" method="post">
+        @if (!string.IsNullOrEmpty(Model.DisplayMessage))
+        {
+            <div class="row">
+                <div class="alert alert-warning">
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                    @Model.DisplayMessage
+                </div>
+            </div>
+        }
+        <div class="row">
+            <p>Choose an account owner</p>
+            @foreach(var customer in Model.CustomerList)
+            {
+                <div class="radio" style="margin-left: 20px;">
+                    @Html.RadioButton("CustomerID", customer.CustomerID)@customer.TradingName - @customer.RegisteredName
+                    <input asp-for="@customer.CustomerID" type="hidden" />
+                    <input asp-for="@customer.TradingName" type="hidden" />
+                    <input asp-for="@customer.RegisteredName" type="hidden" />
+                </div>
+            }
+        </div>
+        <div class="row">
+            <label class="control-label">Initial Balance</label>
+            <input class="form-control" type="number" step="0.01" asp-for="@Model.InitialBalance" min="0" />
+        </div>
+        <div class="row">
+            <label class="control-label">Overdraft Limit</label>
+            <input class="form-control" type="number" step="0.01" asp-for="@Model.OverdraftLimit" min="0" />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Create Account</button>
+
+    </form>
+</div>

@@ -1,1 +1,221 @@
-{"PrivateCustomers":[{"CustomerID":"722f5f8b-815c-4c8d-9d73-04bd0473c5ab","ContactInformation":{"FirstName":"Bill","LastName":"Billson","PhoneNumbers":["123","456","789"],"Address":"123 bill st. Billington. 0987","Email":"bill@boss.com"},"IsSelected":false},{"CustomerID":"8a05ecd8-2924-47d6-85ee-62434fe334df","ContactInformation":{"FirstName":"Bob","LastName":"Bobson","PhoneNumbers":["123","456","789"],"Address":"fake address","Email":"bob@boss.com"},"IsSelected":false}],"BusinessCustomers":[],"BusinessAccounts":[],"OverdraftAccounts":[],"SavingsAccounts":[{"Owners":[{"CustomerID":"722f5f8b-815c-4c8d-9d73-04bd0473c5ab","ContactInformation":{"FirstName":"Bill","LastName":"Billson","PhoneNumbers":["123","456","789"],"Address":"123 bill st. Billington. 0987","Email":"bill@boss.com"},"IsSelected":false},{"CustomerID":"8a05ecd8-2924-47d6-85ee-62434fe334df","ContactInformation":{"FirstName":"Bob","LastName":"Bobson","PhoneNumbers":["123","456","789"],"Address":"fake address","Email":"bob@boss.com"},"IsSelected":false}],"Balance":250.34,"InterestRate":5.0,"AccountID":"24217012-b45d-4686-8124-e3393d1d6be2"},{"Owners":[{"CustomerID":"8a05ecd8-2924-47d6-85ee-62434fe334df","ContactInformation":{"FirstName":"Bob","LastName":"Bobson","PhoneNumbers":["123","456","789"],"Address":"fake address","Email":"bob@boss.com"},"IsSelected":false}],"Balance":0.02,"InterestRate":5.0,"AccountID":"f8a4182f-bdb7-4432-a07d-f4db239f7fc6"}],"BonusSavingsAccounts":[]}
+{
+  "PrivateCustomers": [
+    {
+      "CustomerID": "722f5f8b-815c-4c8d-9d73-04bd0473c5ab",
+      "ContactInformation": {
+        "FirstName": "Bill",
+        "LastName": "Billson",
+        "PhoneNumbers": [
+          "123",
+          "456",
+          "789"
+        ],
+        "Address": "123 bill st. Billington. 0987",
+        "Email": "bill@boss.com"
+      },
+      "IsSelected": false
+    },
+    {
+      "CustomerID": "8a05ecd8-2924-47d6-85ee-62434fe334df",
+      "ContactInformation": {
+        "FirstName": "Bob",
+        "LastName": "Bobson",
+        "PhoneNumbers": [
+          "123",
+          "456",
+          "789"
+        ],
+        "Address": "fake address",
+        "Email": "bob@boss.com"
+      },
+      "IsSelected": false
+    }
+  ],
+  "BusinessCustomers": [
+    {
+      "RegisteredName": "Tha End Inc",
+      "TradingName": "TED",
+      "CustomerID": "ca2de396-de11-4163-8ab0-967a5241b08b",
+      "ContactInformation": {
+        "FirstName": "Bill",
+        "LastName": "Bobson",
+        "PhoneNumbers": [
+          "123",
+          "456",
+          "789"
+        ],
+        "Address": "fake something",
+        "Email": "son@bobbill.com"
+      },
+      "IsSelected": false
+    },
+    {
+      "RegisteredName": "The Company",
+      "TradingName": "TCY",
+      "CustomerID": "ad6eb675-4584-4ed0-98c6-9db3acde7706",
+      "ContactInformation": {
+        "FirstName": "Dill",
+        "LastName": "Pickle",
+        "PhoneNumbers": [
+          "987",
+          "654",
+          "321"
+        ],
+        "Address": "fakest stuff",
+        "Email": "cool@hell.com"
+      },
+      "IsSelected": false
+    }
+  ],
+  "BusinessAccounts": [
+    {
+      "OverdraftLimit": 100000.0,
+      "OverdraftInterest": 3.25,
+      "Owner": {
+        "RegisteredName": "The Company",
+        "TradingName": "TCY",
+        "CustomerID": "ad6eb675-4584-4ed0-98c6-9db3acde7706",
+        "ContactInformation": {
+          "FirstName": "Dill",
+          "LastName": "Pickle",
+          "PhoneNumbers": [
+            "987",
+            "654",
+            "321"
+          ],
+          "Address": "fakest stuff",
+          "Email": "cool@hell.com"
+        },
+        "IsSelected": false
+      },
+      "Balance": 2000.0,
+      "InterestRate": 3.0,
+      "AccountID": "2b58b113-09a2-4fbb-a782-b3bef095ff75"
+    }
+  ],
+  "OverdraftAccounts": [],
+  "SavingsAccounts": [
+    {
+      "Owners": [
+        {
+          "CustomerID": "722f5f8b-815c-4c8d-9d73-04bd0473c5ab",
+          "ContactInformation": {
+            "FirstName": "Bill",
+            "LastName": "Billson",
+            "PhoneNumbers": [
+              "123",
+              "456",
+              "789"
+            ],
+            "Address": "123 bill st. Billington. 0987",
+            "Email": "bill@boss.com"
+          },
+          "IsSelected": false
+        },
+        {
+          "CustomerID": "8a05ecd8-2924-47d6-85ee-62434fe334df",
+          "ContactInformation": {
+            "FirstName": "Bob",
+            "LastName": "Bobson",
+            "PhoneNumbers": [
+              "123",
+              "456",
+              "789"
+            ],
+            "Address": "fake address",
+            "Email": "bob@boss.com"
+          },
+          "IsSelected": false
+        }
+      ],
+      "Balance": 250.34,
+      "InterestRate": 5.0,
+      "AccountID": "24217012-b45d-4686-8124-e3393d1d6be2"
+    },
+    {
+      "Owners": [
+        {
+          "CustomerID": "8a05ecd8-2924-47d6-85ee-62434fe334df",
+          "ContactInformation": {
+            "FirstName": "Bob",
+            "LastName": "Bobson",
+            "PhoneNumbers": [
+              "123",
+              "456",
+              "789"
+            ],
+            "Address": "fake address",
+            "Email": "bob@boss.com"
+          },
+          "IsSelected": false
+        }
+      ],
+      "Balance": 0.02,
+      "InterestRate": 5.0,
+      "AccountID": "f8a4182f-bdb7-4432-a07d-f4db239f7fc6"
+    }
+  ],
+  "BonusSavingsAccounts": [
+    {
+      "LastDebit": "2017-07-20T17:01:30.4017402+10:00",
+      "Owners": [
+        {
+          "CustomerID": "8a05ecd8-2924-47d6-85ee-62434fe334df",
+          "ContactInformation": {
+            "FirstName": "Bob",
+            "LastName": "Bobson",
+            "PhoneNumbers": [
+              "123",
+              "456",
+              "789"
+            ],
+            "Address": "fake address",
+            "Email": "bob@boss.com"
+          },
+          "IsSelected": false
+        }
+      ],
+      "Balance": 0.03,
+      "InterestRate": 5.25,
+      "AccountID": "2d75a414-e3f2-415d-ab0b-c9eaeb5902b1"
+    },
+    {
+      "LastDebit": "2017-07-20T17:01:53.3569208+10:00",
+      "Owners": [
+        {
+          "CustomerID": "722f5f8b-815c-4c8d-9d73-04bd0473c5ab",
+          "ContactInformation": {
+            "FirstName": "Bill",
+            "LastName": "Billson",
+            "PhoneNumbers": [
+              "123",
+              "456",
+              "789"
+            ],
+            "Address": "123 bill st. Billington. 0987",
+            "Email": "bill@boss.com"
+          },
+          "IsSelected": false
+        },
+        {
+          "CustomerID": "8a05ecd8-2924-47d6-85ee-62434fe334df",
+          "ContactInformation": {
+            "FirstName": "Bob",
+            "LastName": "Bobson",
+            "PhoneNumbers": [
+              "123",
+              "456",
+              "789"
+            ],
+            "Address": "fake address",
+            "Email": "bob@boss.com"
+          },
+          "IsSelected": false
+        }
+      ],
+      "Balance": 0.1,
+      "InterestRate": 5.25,
+      "AccountID": "81c4a33a-f478-482b-a581-25c89e94b81a"
+    }
+  ]
+}

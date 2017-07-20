@@ -37,7 +37,7 @@ namespace ExemptionAssignment.Utility
         public static void SaveBankData(string path, Bank bank)
         {
             string localPath = Path.Combine(path, JSONPath);
-            var jsonString = JsonConvert.SerializeObject(bank);
+            var jsonString = JsonConvert.SerializeObject(bank, Formatting.Indented);
             File.WriteAllText(localPath, jsonString);
         }
         private static string JSONPath = "../bank.json";
