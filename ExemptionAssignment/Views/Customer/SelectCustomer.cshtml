@@ -1,0 +1,17 @@
+﻿@model SelectCustomerViewModel
+
+<div style="height:100%; width:100%;">
+    <div class="row">
+        <div class="jumbotron h4"> Select a customer</div>
+    </div>
+
+    <form class="form" asp-controller="Customer" asp-action="SelectCustomer" enctype="multipart/form-data" method="post">
+        <div class="row">
+            @Html.DropDownList("CustomerID", Model.Customers,new {@class="form-control" })
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-primary">Select</button>
+
+    </form>
+
+</div>

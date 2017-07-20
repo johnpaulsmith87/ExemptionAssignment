@@ -20,6 +20,7 @@ namespace ExemptionAssignment.Models
         ExceedsOverdraftLimit,
         OverdraftedDebit,
         NoPrivateCustomersExist,
-        NoBusinessCustomersExist
+        NoBusinessCustomersExist,
+        NoCustomersExist
     }
 }

@@ -55,8 +55,10 @@ namespace ExemptionAssignment.Controllers
         [HttpPost]
         public IActionResult NewBusiness(NewBusinessAccountViewModel vm, IFormCollection frm)
         {
-            var id = Guid.Parse(frm["CustomerID"].ToString());
-            if (id == null)
+
+
+
+            if (string.IsNullOrEmpty(frm["CustomerID"]))
             {
                 vm.DisplayMessage = "Must select at least one account owner";
                 //unfortunately we have to rebind customers to customer list here
@@ -78,6 +80,7 @@ namespace ExemptionAssignment.Controllers
             else
             {
                 //get bank data, then save account to file and send back to start page
+                var id = Guid.Parse(frm["CustomerID"]);
                 var bank = Utility.Utility.GetBankData(_env.WebRootPath);
                 var selectedOwner = bank.BusinessCustomers.Single(bc => id == bc.CustomerID);
                 var account = new BusinessAccount(selectedOwner, vm.InitialBalance, vm.OverdraftLimit);
