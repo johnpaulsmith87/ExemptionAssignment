@@ -207,5 +207,72 @@ namespace ExemptionAssignment.Controllers
             }
 
         }
+        [HttpGet]
+        public IActionResult ViewAccountsById(Guid id)
+        {
+            //first find the customer by id, then find all accounts and then send them to the view
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var privateCustomer = bank.PrivateCustomers.SingleOrDefault(pc => pc.CustomerID == id);
+            ViewAccountByIdViewModel vm = new ViewAccountByIdViewModel();
+            vm.Accounts = new List<AccountSelectViewModel>();
+            if (privateCustomer == null)
+            {
+                var accounts = bank.BusinessAccounts.Where(ba => ba.Owner.CustomerID == id).ToList();
+                vm.Accounts.AddRange(accounts.Select(acc => new AccountSelectViewModel()
+                {
+                    AccountID = acc.AccountID,
+                    Balance = acc.Balance,
+                    InterestRate = acc.InterestRate,
+                    Type = "Business"
+                }));
+            }
+            else
+            {
+                //since it is private we must do as we did above but for each type :( I wish I had set up my file better
+                //Savings
+                List<SavingsAccount> savingsAccounts = new List<SavingsAccount>();
+                foreach (var acc in bank.SavingsAccounts)
+                    foreach (var owner in acc.Owners)
+                        if (owner.CustomerID == id)
+                            savingsAccounts.Add(acc);
+                vm.Accounts.AddRange(savingsAccounts.Select(acc => new AccountSelectViewModel()
+                {
+                    AccountID = acc.AccountID,
+                    Balance = acc.Balance,
+                    InterestRate = acc.InterestRate,
+                    Type = "Savings"
+                }));
+                //bonus savings
+                List<BonusSavingsAccount> bonusAccounts = new List<BonusSavingsAccount>();
+                foreach (var acc in bank.BonusSavingsAccounts)
+                    foreach (var owner in acc.Owners)
+                        if (owner.CustomerID == id)
+                            bonusAccounts.Add(acc);
+
+                vm.Accounts.AddRange(bonusAccounts.Select(acc => new AccountSelectViewModel()
+                {
+                    AccountID = acc.AccountID,
+                    Balance = acc.Balance,
+                    InterestRate = acc.InterestRate,
+                    Type = "Bonus Savings"
+                }));
+                //overdraft
+                List<OverdraftAccount> overdraftAccounts = new List<OverdraftAccount>();
+                foreach (var acc in bank.OverdraftAccounts)
+                    foreach (var owner in acc.Owners)
+                        if (owner.CustomerID == id)
+                            overdraftAccounts.Add(acc);
+
+                vm.Accounts.AddRange(overdraftAccounts.Select(acc => new AccountSelectViewModel()
+                {
+                    AccountID = acc.AccountID,
+                    Balance = acc.Balance,
+                    InterestRate = acc.InterestRate,
+                    Type = "Overdraft"
+                }));
+            }
+
+            return View(vm);
+        }
     }
 }
