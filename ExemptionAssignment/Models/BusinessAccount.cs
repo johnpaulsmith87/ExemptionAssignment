@@ -16,12 +16,14 @@ namespace ExemptionAssignment.Models
         public const float ATMFee = 2;
         public const float TellerFee = 5;
         public const float ChequingFee = 10;
+        public BusinessCustomer Owner { get; set; }
         public BusinessAccount()
         {
-            //default constructor for XML
+            //default constructor for json
         }
-        public BusinessAccount(float initialBalance, float overdraftLimit)
+        public BusinessAccount(BusinessCustomer owner, float initialBalance, float overdraftLimit)
         {
+            Owner = owner;
             OverdraftLimit = overdraftLimit;
             Balance = initialBalance;
             InterestRate = 3.00F;

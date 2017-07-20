@@ -21,7 +21,7 @@ namespace ExemptionAssignment.Models
     {
         public SavingsAccount()
         {
-            //default contructor for XML
+            //default contructor for json
         }
         public SavingsAccount(List<PrivateCustomer> owners, float initialBalance)
         {
@@ -43,13 +43,13 @@ namespace ExemptionAssignment.Models
 
         public override Message Debit(float amount)
         {
-            //need to write util class for XML fetching/saving will do before GUI work
+            //need to write util class for json fetching/saving will do before GUI work
             if (amount + 1 > Balance)
                 return Message.SavingsNegativeBalance;
             else
             {
                 Balance -= amount;
-                //save XML to file or do it at controller level (probably better)
+                //save json to file or do it at controller level (probably better)
                 return Message.AccountDebitSuccess;
             }
         }
@@ -62,7 +62,7 @@ namespace ExemptionAssignment.Models
 
         public BonusSavingsAccount()
         {
-            //default constructor for XML
+            //default constructor for json
         }
         public BonusSavingsAccount(List<PrivateCustomer> owners, float initialBalance)
         {
@@ -100,7 +100,7 @@ namespace ExemptionAssignment.Models
             else
             {
                 Balance -= amount;
-                //save XML to file or do it at controller level (probably better)
+                //save json to file or do it at controller level (probably better)
                 LastDebit = DateTime.Now;
                 return Message.AccountDebitSuccess;
             }
@@ -119,7 +119,7 @@ namespace ExemptionAssignment.Models
         public float OverdraftInterest { get; set; } //used for calc interest owed on overdraft
         public OverdraftAccount()
         {
-            //default constructor for XML
+            //default constructor for json
         }
         public OverdraftAccount(float initialBalance, List<PrivateCustomer> owners, float overdraftLimit)
         {

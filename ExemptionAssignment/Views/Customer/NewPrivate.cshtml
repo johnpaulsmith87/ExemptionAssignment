@@ -1,3 +1,36 @@
 ﻿@model PrivateCustomer
 @{
+    var test = Model.CustomerID;
 }
+<form class="form" asp-controller="Customer" asp-action="NewPrivate" enctype="multipart/form-data" name="upload" method="post">
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-5">
+                <label class="control-label" asp-for="ContactInformation.FirstName"></label>
+                <input class="form-control" asp-for="ContactInformation.FirstName" />
+            </div>
+            <div class="col-md-5">
+                <label class="control-label" asp-for="ContactInformation.LastName"></label>
+                <input class="form-control" asp-for="ContactInformation.LastName" />
+            </div>
+            @for (int i = 0; i < Model.ContactInformation.PhoneNumbers.Count; i++)
+            {
+                <div class="col-md-5">
+                    <label class="control-label">Phone @(i + 1)</label>
+                    <input class="form-control" asp-for="ContactInformation.PhoneNumbers[i]" />
+                </div>
+            }
+            <div class="col-md-5">
+                <label class="control-label" asp-for="ContactInformation.Email"></label>
+                <input class="form-control" asp-for="ContactInformation.Email" />
+            </div>
+            <div class="col-md-5">
+                <label class="control-label" asp-for="ContactInformation.Address"></label>
+                <input class="form-control" asp-for="ContactInformation.Address" />
+            </div>
+        </div>
+    </div>
+    <br />
+    <input type="hidden" asp-for="CustomerID"/>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

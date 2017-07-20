@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 
 namespace ExemptionAssignment.Models
 {
-    //Top level element for XML
+    //Top level node for json
     //Contains all Customer and Account information
     public class Bank
     {
-        public List<Customer> Customers { get; set; }
-        public List<Account> Accounts { get; set; }
+        public List<PrivateCustomer> PrivateCustomers { get; set; }
+        public List<BusinessCustomer> BusinessCustomers { get; set; }
+        public List<BusinessAccount> BusinessAccounts { get; set; }
+        public List<OverdraftAccount> OverdraftAccounts { get; set; }
+        public List<SavingsAccount> SavingsAccounts { get; set; }
+        public List<BonusSavingsAccount> BonusSavingsAccounts { get; set; }
     }
 }

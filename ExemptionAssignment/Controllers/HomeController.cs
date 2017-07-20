@@ -10,6 +10,11 @@ namespace ExemptionAssignment.Controllers
     {
         public IActionResult Index()
         {
+            /* test code only */
+
+           
+
+
             return View();
         }
         public IActionResult Error()

@@ -15,6 +15,5 @@ namespace ExemptionAssignment.Models
         public Guid CustomerID { get; set; }
         public Contact ContactInformation { get; set; }
 
-        public float OverdraftLimit { get; set; }
     }
 }

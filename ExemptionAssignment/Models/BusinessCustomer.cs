@@ -13,7 +13,7 @@ namespace ExemptionAssignment.Models
     {
         public BusinessCustomer()
         {
-            //default constructor for XML
+            //default constructor for json
         }
         /// <summary>
         /// Create a new Business customer with contact, trading name and registered name
