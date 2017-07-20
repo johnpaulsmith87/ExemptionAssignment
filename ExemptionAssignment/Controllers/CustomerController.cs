@@ -21,7 +21,7 @@ namespace ExemptionAssignment.Controllers
        public IActionResult CreateNew()
         {
             //test code only
-            Utility.Utility.TestJSON(_env.WebRootPath);
+            //Utility.Utility.TestJSON(_env.WebRootPath);
 
             return View();
         }
@@ -45,9 +45,38 @@ namespace ExemptionAssignment.Controllers
         [HttpPost]
         public IActionResult NewPrivate(PrivateCustomer customer)
         {
-            //submit form
-            return null;
+            //Get bank object from file, add customer to bank object, then save!
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            bank.PrivateCustomers.Add(customer);
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("Index", "Home", new { message = Message.CreatePrivateCustomerSuccess });
         }
-        
+        [HttpGet]
+        public IActionResult NewBusiness()
+        {
+            //empty form
+            BusinessCustomer customer = new BusinessCustomer()
+            {
+                CustomerID = Guid.NewGuid(), //just generate new guid at this time!
+                ContactInformation = new Contact()
+            };
+            List<string> phoneNumbers = new List<string>();
+            for (int i = 0; i < 3; i++)
+            {
+                phoneNumbers.Add(string.Empty);
+            }
+            customer.ContactInformation.PhoneNumbers = phoneNumbers;
+            return View(customer);
+        }
+        [HttpPost]
+        public IActionResult NewBusiness(BusinessCustomer customer)
+        {
+            //Get bank object from file, add customer to bank object, then save!
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            bank.BusinessCustomers.Add(customer);
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("Index", "Home", new { message = Message.CreateBusinessCustomerSuccess });
+        }
+
     }
 }

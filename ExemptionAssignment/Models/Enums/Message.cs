@@ -18,6 +18,8 @@ namespace ExemptionAssignment.Models
         CalculatedInterestUpdate,
         NoInterestAdded,
         ExceedsOverdraftLimit,
-        OverdraftedDebit
+        OverdraftedDebit,
+        NoPrivateCustomersExist,
+        NoBusinessCustomersExist
     }
 }

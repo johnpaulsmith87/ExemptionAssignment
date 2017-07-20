@@ -23,6 +23,7 @@ namespace ExemptionAssignment.Models
         }
         public BusinessAccount(BusinessCustomer owner, float initialBalance, float overdraftLimit)
         {
+            AccountID = Guid.NewGuid();
             Owner = owner;
             OverdraftLimit = overdraftLimit;
             Balance = initialBalance;

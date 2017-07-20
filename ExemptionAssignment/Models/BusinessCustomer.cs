@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ExemptionAssignment.Models
 {
@@ -27,7 +28,9 @@ namespace ExemptionAssignment.Models
             RegisteredName = registeredName;
             TradingName = tradingName;
         }
+        [Display(Name = "Registered Name")]
         public string RegisteredName { get; set; }
+        [Display(Name = "Trading Name")]
         public string TradingName { get; set; }
     }
 }

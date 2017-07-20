@@ -1,11 +1,62 @@
-﻿@{
+﻿@model Message?
+@{
     ViewData["Title"] = "Fake Bank - Employee Terminal";
+
 }
 
 <div style="height:100%; width:100%;">
     <div class="row">
         <div class="jumbotron h3"> Welcome to Fake Bank's Employee Terminal</div>
     </div>
+    @if (Model != null)
+    {
+        switch (Model)
+        {
+            case Message.CreatePrivateCustomerSuccess:
+                <div class="row">
+                    <div class="alert alert-info">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        Successfully created private customer.
+                    </div>
+                </div>
+                break;
+            case Message.CreateBusinessCustomerSuccess:
+                <div class="row">
+                    <div class="alert alert-info">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        Successfully created business customer.
+                    </div>
+                </div>
+                break;
+            case Message.NoBusinessCustomersExist:
+                <div class="row">
+                    <div class="alert alert-danger">
+                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        Please create at least one business customer before creating a business account.
+                    </div>
+                </div>
+                break;
+            case Message.NoPrivateCustomersExist:
+                <div class="row">
+                    <div class="alert alert-danger">
+                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        Please create at least one private customer before creating a private account.
+                    </div>
+                </div>
+                break;
+            case Message.CreatePrivateAccountSuccess:
+                <div class="row">
+                    <div class="alert alert-info">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        Successfully created private account.
+                    </div>
+                </div>
+                break;
+            default:
+                break;
+        }
+    }
+
     <div class="row">
         <ul class="list-inline">
             <li><a href="@Url.Action("CreateNew","Customer")" class="btn btn-primary">Create Customer</a></li>

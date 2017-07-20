@@ -1,7 +1,7 @@
-﻿@model PrivateCustomer
+﻿@model BusinessCustomer
 @{
 }
-<form class="form" asp-controller="Customer" asp-action="NewPrivate" enctype="multipart/form-data" name="upload" method="post">
+<form class="form" asp-controller="Customer" asp-action="NewBusiness" enctype="multipart/form-data" name="upload" method="post">
     <div class="row">
         <div class="form-group">
             <div class="col-md-5">
@@ -27,9 +27,18 @@
                 <label class="control-label" asp-for="ContactInformation.Address"></label>
                 <input class="form-control" asp-for="ContactInformation.Address" />
             </div>
+            <hr />
+            <div class="col-md-5">
+                <label class="control-label" asp-for="RegisteredName"></label>
+                <input class="form-control" asp-for="RegisteredName" />
+            </div>
+            <div class="col-md-5">
+                <label class="control-label" asp-for="TradingName"></label>
+                <input class="form-control" asp-for="TradingName" />
+            </div>
         </div>
     </div>
     <br />
-    <input type="hidden" asp-for="CustomerID"/>
+    <input type="hidden" asp-for="CustomerID" />
     <button type="submit" class="btn btn-primary">Create</button>
 </form>

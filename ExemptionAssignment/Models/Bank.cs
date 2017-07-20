@@ -7,6 +7,8 @@ namespace ExemptionAssignment.Models
 {
     //Top level node for json
     //Contains all Customer and Account information
+    //json didn't like my abstract classes but I wanted to keep them to demonstrate knowledge of OO principles
+    //because of that, I structured my bank object this to avoid those issues
     public class Bank
     {
         public List<PrivateCustomer> PrivateCustomers { get; set; }

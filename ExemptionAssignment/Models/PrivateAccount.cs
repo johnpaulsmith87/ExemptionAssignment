@@ -25,6 +25,7 @@ namespace ExemptionAssignment.Models
         }
         public SavingsAccount(List<PrivateCustomer> owners, float initialBalance)
         {
+            AccountID = Guid.NewGuid();
             Owners = owners;
             Balance = initialBalance;
             InterestRate = 5.00F; //as percentage
@@ -66,6 +67,7 @@ namespace ExemptionAssignment.Models
         }
         public BonusSavingsAccount(List<PrivateCustomer> owners, float initialBalance)
         {
+            AccountID = Guid.NewGuid();
             Owners = owners;
             Balance = initialBalance;
             InterestRate = 5.25F;
@@ -100,7 +102,6 @@ namespace ExemptionAssignment.Models
             else
             {
                 Balance -= amount;
-                //save json to file or do it at controller level (probably better)
                 LastDebit = DateTime.Now;
                 return Message.AccountDebitSuccess;
             }
@@ -123,6 +124,7 @@ namespace ExemptionAssignment.Models
         }
         public OverdraftAccount(float initialBalance, List<PrivateCustomer> owners, float overdraftLimit)
         {
+            AccountID = Guid.NewGuid();
             OverdraftLimit = overdraftLimit;
             Owners = owners;
             Balance = initialBalance;
