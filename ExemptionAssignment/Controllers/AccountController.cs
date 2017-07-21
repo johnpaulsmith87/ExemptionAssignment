@@ -432,15 +432,54 @@ namespace ExemptionAssignment.Controllers
             Utility.Utility.SaveBankData(_env.WebRootPath, bank);
             return RedirectToAction("ViewOverdraftAccount", "Account", new { id = account.AccountID, message = result });
         }
-        //[HttpGet]
-        //public IActionResult ViewBusinessAccount(Guid id)
-        //{
-
-        //}
-        //[HttpPost]
-        //public IActionResult ViewBusinessAccount()
-        //{
-
-        //}
+        [HttpGet]
+        public IActionResult ViewBusinessAccount(Guid id, Message? message)
+        {
+            //get account from file. populate view model
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BusinessAccounts.Single(ba => ba.AccountID == id);
+            var vm = new ViewOverdraftAccountViewModel()
+            {
+                AccountID = account.AccountID,
+                InterestRate = account.InterestRate,
+                Balance = account.Balance,
+                OverdraftLimit = account.OverdraftLimit,
+                OverdraftInterest = account.OverdraftInterest
+            };
+            if (message != null)
+            {
+                vm.Message = (Message)message;
+            }
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult BusinessAccountCredit(ViewBusinessAccountViewModel vm)
+        {
+            //pull acc from file, perform operation, then redirect to page with result!
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BusinessAccounts.Single(ba => ba.AccountID == vm.AccountID);
+            var result = account.Credit(vm.CreditAmount);
+            //now save to file
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewBusinessAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult BusinessAccountDebit(ViewBusinessAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BusinessAccounts.Single(ba => ba.AccountID == vm.AccountID);
+            var result = account.Debit(vm.DebitAmount);
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewBusinessAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult BusinessAccountCalcInterest(ViewSavingsAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BusinessAccounts.Single(ba => ba.AccountID == vm.AccountID);
+            var result = account.CalculateInterest();
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewBusinessAccount", "Account", new { id = account.AccountID, message = result });
+        }
     }
 }

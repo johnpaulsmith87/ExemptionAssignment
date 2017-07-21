@@ -12,7 +12,7 @@ namespace ExemptionAssignment.Models
     {
         public decimal OverdraftLimit { get; set; }
         public decimal OverdraftInterest { get; set; } //used for calc interest owed on overdraft
-        public const decimal TransferFee = 1;
+        public const decimal TransferFee = 1; //Not used... but was specified in assignment document
         public const decimal ATMFee = 2;
         public const decimal TellerFee = 5;
         public const decimal ChequingFee = 10;
@@ -35,17 +35,24 @@ namespace ExemptionAssignment.Models
             if (Balance < 0)
             {
                 //apply interest rate to overdraft amount
-                Balance -= Balance * (OverdraftInterest / 100);
+                var interestOwed = -Balance * (OverdraftInterest / 100);
+                Balance -= interestOwed;
             }
             else
             {
+
                 Balance += Balance * (InterestRate / 100);
             }
+            Balance = Math.Round(Balance, 2);
             return Message.CalculatedInterestUpdate;
         }
 
         public override Message Credit(decimal amount)
         {
+            if (!(amount > 0))
+            {
+                return Message.AmountMustBeGreaterThanZero;
+            }
             Balance += amount;
             return Message.AccountCreditSuccess;
         }
@@ -56,10 +63,14 @@ namespace ExemptionAssignment.Models
             {
                 return Message.ExceedsOverdraftLimit;
             }
+            else if (!(amount > 0))
+            {
+                return Message.AmountMustBeGreaterThanZero;
+            }
             else if (amount > Balance)
             {
                 Balance -= amount;
-                return Message.OverdraftedDebit; //not sure if necessary
+                return Message.OverdraftedDebit;
             }
             else
             {

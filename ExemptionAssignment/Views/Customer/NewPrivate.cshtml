@@ -6,11 +6,11 @@
         <div class="form-group">
             <div class="col-md-5">
                 <label class="control-label" asp-for="ContactInformation.FirstName"></label>
-                <input class="form-control" asp-for="ContactInformation.FirstName" />
+                <input class="form-control" asp-for="ContactInformation.FirstName" required/>
             </div>
             <div class="col-md-5">
                 <label class="control-label" asp-for="ContactInformation.LastName"></label>
-                <input class="form-control" asp-for="ContactInformation.LastName" />
+                <input class="form-control" asp-for="ContactInformation.LastName" required/>
             </div>
             @for (int i = 0; i < Model.ContactInformation.PhoneNumbers.Count; i++)
             {
@@ -21,11 +21,11 @@
             }
             <div class="col-md-5">
                 <label class="control-label" asp-for="ContactInformation.Email"></label>
-                <input class="form-control" asp-for="ContactInformation.Email" />
+                <input class="form-control" asp-for="ContactInformation.Email" required/>
             </div>
             <div class="col-md-5">
                 <label class="control-label" asp-for="ContactInformation.Address"></label>
-                <input class="form-control" asp-for="ContactInformation.Address" />
+                <input class="form-control" asp-for="ContactInformation.Address" required/>
             </div>
         </div>
     </div>
