@@ -33,13 +33,21 @@ namespace ExemptionAssignment.Models
         public override Message CalculateInterest()
         {
             Balance += Balance * (InterestRate / 100);
+            Balance = (float)Math.Round((decimal)Balance, 2);
             return Message.CalculatedInterestUpdate;
         }
 
         public override Message Credit(float amount)
         {
-            Balance += amount;
-            return Message.AccountCreditSuccess;
+            if (!(amount > 0))
+            {
+                return Message.AmountMustBeGreaterThanZero;
+            }
+            else
+            {
+                Balance += amount;
+                return Message.AccountCreditSuccess;
+            }
         }
 
         public override Message Debit(float amount)
@@ -47,9 +55,13 @@ namespace ExemptionAssignment.Models
             //need to write util class for json fetching/saving will do before GUI work
             if (amount + 1 > Balance)
                 return Message.SavingsNegativeBalance;
+            else if (!(amount > 0))
+            {
+                return Message.AmountMustBeGreaterThanZero;
+            }
             else
             {
-                Balance -= amount;
+                Balance -= amount + 1;
                 //save json to file or do it at controller level (probably better)
                 return Message.AccountDebitSuccess;
             }
@@ -80,13 +92,14 @@ namespace ExemptionAssignment.Models
             {
                 //add interest
                 Balance += Balance * (InterestRate / 100);
+                Balance = (float)Math.Round((decimal)Balance, 2);
                 return Message.CalculatedInterestUpdate;
             }
             else
             {
                 //do not add interest
                 return Message.NoInterestAdded;
-            }         
+            }
         }
 
         public override Message Credit(float amount)
@@ -133,7 +146,7 @@ namespace ExemptionAssignment.Models
         }
         public override Message CalculateInterest()
         {
-            if(Balance < 0)
+            if (Balance < 0)
             {
                 //apply interest rate to overdraft amount
                 Balance -= Balance * (OverdraftInterest / 100);
@@ -153,11 +166,11 @@ namespace ExemptionAssignment.Models
 
         public override Message Debit(float amount)
         {
-            if(amount > Balance + OverdraftLimit)
+            if (amount > Balance + OverdraftLimit)
             {
                 return Message.ExceedsOverdraftLimit;
             }
-            else if(amount > Balance)
+            else if (amount > Balance)
             {
                 Balance -= amount;
                 return Message.OverdraftedDebit; //not sure if necessary

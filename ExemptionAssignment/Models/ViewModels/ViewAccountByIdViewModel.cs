@@ -15,5 +15,6 @@ namespace ExemptionAssignment.Models
         public float Balance { get; set; }
         public string Type { get; set; }
         public float InterestRate { get; set; }
+        public string Action { get; set; }
     }
 }

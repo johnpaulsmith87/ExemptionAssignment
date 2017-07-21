@@ -7,6 +7,7 @@ namespace ExemptionAssignment.Models
 {
     public enum Message
     {
+        NoMessage,
         AccountDebitSuccess,
         AccountCreditSuccess,
         CreatePrivateCustomerSuccess,
@@ -21,6 +22,7 @@ namespace ExemptionAssignment.Models
         OverdraftedDebit,
         NoPrivateCustomersExist,
         NoBusinessCustomersExist,
-        NoCustomersExist
+        NoCustomersExist,
+        AmountMustBeGreaterThanZero
     }
 }

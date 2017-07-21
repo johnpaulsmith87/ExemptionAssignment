@@ -223,7 +223,8 @@ namespace ExemptionAssignment.Controllers
                     AccountID = acc.AccountID,
                     Balance = acc.Balance,
                     InterestRate = acc.InterestRate,
-                    Type = "Business"
+                    Type = "Business",
+                    Action = "ViewBusinessAccount"
                 }));
             }
             else
@@ -240,7 +241,8 @@ namespace ExemptionAssignment.Controllers
                     AccountID = acc.AccountID,
                     Balance = acc.Balance,
                     InterestRate = acc.InterestRate,
-                    Type = "Savings"
+                    Type = "Savings",
+                    Action = "ViewSavingsAccount"
                 }));
                 //bonus savings
                 List<BonusSavingsAccount> bonusAccounts = new List<BonusSavingsAccount>();
@@ -254,7 +256,8 @@ namespace ExemptionAssignment.Controllers
                     AccountID = acc.AccountID,
                     Balance = acc.Balance,
                     InterestRate = acc.InterestRate,
-                    Type = "Bonus Savings"
+                    Type = "Bonus Savings",
+                    Action = "ViewBonusSavingsAccount"
                 }));
                 //overdraft
                 List<OverdraftAccount> overdraftAccounts = new List<OverdraftAccount>();
@@ -268,11 +271,90 @@ namespace ExemptionAssignment.Controllers
                     AccountID = acc.AccountID,
                     Balance = acc.Balance,
                     InterestRate = acc.InterestRate,
-                    Type = "Overdraft"
+                    Type = "Overdraft",
+                    Action = "ViewOverdraftAccount"
                 }));
             }
 
             return View(vm);
         }
+
+        [HttpGet]
+        public IActionResult ViewSavingsAccount(Guid id, Message? message)
+        {
+            //get account from file. populate view model
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.SavingsAccounts.Single(sa => sa.AccountID == id);
+            var vm = new ViewSavingsAccountViewModel()
+            {
+                AccountID = account.AccountID,
+                InterestRate = account.InterestRate,
+                Balance = account.Balance,
+            };
+            if(message != null)
+            {
+                vm.Message = (Message)message;
+            }
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult SavingsAccountCredit(ViewSavingsAccountViewModel vm)
+        {
+            //pull acc from file, perform operation, then redirect to page with result!
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.SavingsAccounts.Single(sa => sa.AccountID == vm.AccountID);
+            var result = account.Credit(vm.CreditAmount);
+            //now save to file
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewSavingsAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult SavingsAccountDebit(ViewSavingsAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.SavingsAccounts.Single(sa => sa.AccountID == vm.AccountID);
+            var result = account.Debit(vm.DebitAmount);
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewSavingsAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult SavingsAccountCalcInterest(ViewSavingsAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.SavingsAccounts.Single(sa => sa.AccountID == vm.AccountID);
+            var result = account.CalculateInterest();
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewSavingsAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        //[HttpGet]
+        //public IActionResult ViewBonusSavingsAccount(Guid id)
+        //{
+
+        //}
+        //[HttpPost]
+        //public IActionResult ViewBonusSavingsAccount()
+        //{
+
+        //}
+        //[HttpGet]
+        //public IActionResult ViewOverdraftAccount(Guid id)
+        //{
+
+        //}
+        //[HttpPost]
+        //public IActionResult ViewOverdraftAccount()
+        //{
+
+        //}
+        //[HttpGet]
+        //public IActionResult ViewBusinessAccount(Guid id)
+        //{
+
+        //}
+        //[HttpPost]
+        //public IActionResult ViewBusinessAccount()
+        //{
+
+        //}
     }
 }
