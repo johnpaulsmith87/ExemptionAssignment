@@ -23,21 +23,21 @@ namespace ExemptionAssignment.Models
         {
             //default contructor for json
         }
-        public SavingsAccount(List<PrivateCustomer> owners, float initialBalance)
+        public SavingsAccount(List<PrivateCustomer> owners, decimal initialBalance)
         {
             AccountID = Guid.NewGuid();
             Owners = owners;
             Balance = initialBalance;
-            InterestRate = 5.00F; //as percentage
+            InterestRate = 5.00M; //as percentage
         }
         public override Message CalculateInterest()
         {
             Balance += Balance * (InterestRate / 100);
-            Balance = (float)Math.Round((decimal)Balance, 2);
+            Balance = Math.Round(Balance, 2);
             return Message.CalculatedInterestUpdate;
         }
 
-        public override Message Credit(float amount)
+        public override Message Credit(decimal amount)
         {
             if (!(amount > 0))
             {
@@ -50,7 +50,7 @@ namespace ExemptionAssignment.Models
             }
         }
 
-        public override Message Debit(float amount)
+        public override Message Debit(decimal amount)
         {
             //need to write util class for json fetching/saving will do before GUI work
             if (amount + 1 > Balance)
@@ -77,22 +77,22 @@ namespace ExemptionAssignment.Models
         {
             //default constructor for json
         }
-        public BonusSavingsAccount(List<PrivateCustomer> owners, float initialBalance)
+        public BonusSavingsAccount(List<PrivateCustomer> owners, decimal initialBalance)
         {
             AccountID = Guid.NewGuid();
             Owners = owners;
             Balance = initialBalance;
-            InterestRate = 5.25F;
+            InterestRate = 5.25M;
             LastDebit = DateTime.Now;
         }
         public DateTime LastDebit { get; set; }
         public override Message CalculateInterest()
         {
-            if (LastDebit == default(DateTime) || TimeSpan.FromDays(30) >= DateTime.Now.Subtract(LastDebit))
+            if (LastDebit == default(DateTime) || (DateTime.Now - LastDebit).TotalDays >= 30)
             {
                 //add interest
                 Balance += Balance * (InterestRate / 100);
-                Balance = (float)Math.Round((decimal)Balance, 2);
+                Balance = Math.Round(Balance, 2);
                 return Message.CalculatedInterestUpdate;
             }
             else
@@ -102,16 +102,25 @@ namespace ExemptionAssignment.Models
             }
         }
 
-        public override Message Credit(float amount)
+        public override Message Credit(decimal amount)
         {
+            if (!(amount > 0))
+            {
+                return Message.AmountMustBeGreaterThanZero;
+            }
             Balance += amount;
+
             return Message.AccountCreditSuccess;
         }
 
-        public override Message Debit(float amount)
+        public override Message Debit(decimal amount)
         {
-            if (amount + 1 > Balance)
+            if (amount > Balance)
                 return Message.SavingsNegativeBalance;
+            else if (!(amount > 0))
+            {
+                return Message.AmountMustBeGreaterThanZero;
+            }
             else
             {
                 Balance -= amount;
@@ -119,9 +128,10 @@ namespace ExemptionAssignment.Models
                 return Message.AccountDebitSuccess;
             }
         }
-        public void ResetDebitCounter()
+        public Message ResetDebitCounter()
         {
             LastDebit = default(DateTime);
+            return Message.ResetDebitCounter;
         }
     }
     /// <summary>
@@ -129,51 +139,62 @@ namespace ExemptionAssignment.Models
     /// </summary>
     public class OverdraftAccount : PrivateAccount
     {
-        public float OverdraftLimit { get; set; }
-        public float OverdraftInterest { get; set; } //used for calc interest owed on overdraft
+        public decimal OverdraftLimit { get; set; }
+        public decimal OverdraftInterest { get; set; } //used for calc interest owed on overdraft
         public OverdraftAccount()
         {
             //default constructor for json
         }
-        public OverdraftAccount(float initialBalance, List<PrivateCustomer> owners, float overdraftLimit)
+        public OverdraftAccount(decimal initialBalance, List<PrivateCustomer> owners, decimal overdraftLimit)
         {
             AccountID = Guid.NewGuid();
             OverdraftLimit = overdraftLimit;
             Owners = owners;
             Balance = initialBalance;
-            InterestRate = 3.00F;
-            OverdraftInterest = 3.25F;
+            InterestRate = 3.00M;
+            OverdraftInterest = 3.25M;
         }
         public override Message CalculateInterest()
         {
             if (Balance < 0)
             {
                 //apply interest rate to overdraft amount
-                Balance -= Balance * (OverdraftInterest / 100);
+                var interestOwed = -Balance * (OverdraftInterest / 100);
+                Balance -= interestOwed;
             }
             else
             {
-                Balance += Balance * (InterestRate / 100);
+
+                Balance += Balance * (InterestRate / 100);           
             }
+            Balance = Math.Round(Balance, 2);
             return Message.CalculatedInterestUpdate;
         }
 
-        public override Message Credit(float amount)
+        public override Message Credit(decimal amount)
         {
+            if (!(amount > 0))
+            {
+                return Message.AmountMustBeGreaterThanZero;
+            }
             Balance += amount;
             return Message.AccountCreditSuccess;
         }
 
-        public override Message Debit(float amount)
+        public override Message Debit(decimal amount)
         {
             if (amount > Balance + OverdraftLimit)
             {
                 return Message.ExceedsOverdraftLimit;
             }
+            else if (!(amount > 0))
+            {
+                return Message.AmountMustBeGreaterThanZero;
+            }
             else if (amount > Balance)
             {
                 Balance -= amount;
-                return Message.OverdraftedDebit; //not sure if necessary
+                return Message.OverdraftedDebit; 
             }
             else
             {

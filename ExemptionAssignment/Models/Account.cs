@@ -10,13 +10,13 @@ namespace ExemptionAssignment.Models
     /// </summary>
     public abstract class Account
     {
-        public float Balance { get; set; }
-        public virtual float InterestRate { get; set;}
+        public decimal Balance { get; set; }
+        public virtual decimal InterestRate { get; set;}
         public Guid AccountID { get; set; }
 
         //The following methods will return updated balances. See the child classes for implementations
         public abstract Message CalculateInterest();
-        public abstract Message Debit(float amount);
-        public abstract Message Credit(float amount);
+        public abstract Message Debit(decimal amount);
+        public abstract Message Credit(decimal amount);
     }
 }

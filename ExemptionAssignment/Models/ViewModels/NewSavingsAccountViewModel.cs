@@ -8,7 +8,7 @@ namespace ExemptionAssignment.Models
     public class NewSavingsAccountViewModel
     {
         public List<PrivateCustomer> CustomerList { get; set; }
-        public float InitialBalance { get; set; }
+        public decimal InitialBalance { get; set; }
 
         public string DisplayMessage { get; set; }
     }

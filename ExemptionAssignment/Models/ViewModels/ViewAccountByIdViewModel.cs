@@ -12,9 +12,9 @@ namespace ExemptionAssignment.Models
     public class AccountSelectViewModel
     {
         public Guid AccountID { get; set; }
-        public float Balance { get; set; }
+        public decimal Balance { get; set; }
         public string Type { get; set; }
-        public float InterestRate { get; set; }
+        public decimal InterestRate { get; set; }
         public string Action { get; set; }
     }
 }

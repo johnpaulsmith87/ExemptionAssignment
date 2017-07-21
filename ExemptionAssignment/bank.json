@@ -93,7 +93,32 @@
       "AccountID": "2b58b113-09a2-4fbb-a782-b3bef095ff75"
     }
   ],
-  "OverdraftAccounts": [],
+  "OverdraftAccounts": [
+    {
+      "OverdraftLimit": 10000.0,
+      "OverdraftInterest": 3.25,
+      "Owners": [
+        {
+          "CustomerID": "8a05ecd8-2924-47d6-85ee-62434fe334df",
+          "ContactInformation": {
+            "FirstName": "Bob",
+            "LastName": "Bobson",
+            "PhoneNumbers": [
+              "123",
+              "456",
+              "789"
+            ],
+            "Address": "fake address",
+            "Email": "bob@boss.com"
+          },
+          "IsSelected": false
+        }
+      ],
+      "Balance": 167.45,
+      "InterestRate": 3.0,
+      "AccountID": "29ce6165-1e25-4ebc-ab80-6be69b1193ec"
+    }
+  ],
   "SavingsAccounts": [
     {
       "Owners": [
@@ -128,7 +153,7 @@
           "IsSelected": false
         }
       ],
-      "Balance": 456.05,
+      "Balance": 461.95,
       "InterestRate": 5.0,
       "AccountID": "24217012-b45d-4686-8124-e3393d1d6be2"
     },
@@ -157,7 +182,7 @@
   ],
   "BonusSavingsAccounts": [
     {
-      "LastDebit": "2017-07-20T17:01:30.4017402+10:00",
+      "LastDebit": "0001-01-01T00:00:00",
       "Owners": [
         {
           "CustomerID": "8a05ecd8-2924-47d6-85ee-62434fe334df",
@@ -175,7 +200,7 @@
           "IsSelected": false
         }
       ],
-      "Balance": 0.03,
+      "Balance": 276.95,
       "InterestRate": 5.25,
       "AccountID": "2d75a414-e3f2-415d-ab0b-c9eaeb5902b1"
     },

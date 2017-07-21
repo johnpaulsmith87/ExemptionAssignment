@@ -10,25 +10,25 @@ namespace ExemptionAssignment.Models
     /// </summary>
     public class BusinessAccount : Account
     {
-        public float OverdraftLimit { get; set; }
-        public float OverdraftInterest { get; set; } //used for calc interest owed on overdraft
-        public const float TransferFee = 1;
-        public const float ATMFee = 2;
-        public const float TellerFee = 5;
-        public const float ChequingFee = 10;
+        public decimal OverdraftLimit { get; set; }
+        public decimal OverdraftInterest { get; set; } //used for calc interest owed on overdraft
+        public const decimal TransferFee = 1;
+        public const decimal ATMFee = 2;
+        public const decimal TellerFee = 5;
+        public const decimal ChequingFee = 10;
         public BusinessCustomer Owner { get; set; }
         public BusinessAccount()
         {
             //default constructor for json
         }
-        public BusinessAccount(BusinessCustomer owner, float initialBalance, float overdraftLimit)
+        public BusinessAccount(BusinessCustomer owner, decimal initialBalance, decimal overdraftLimit)
         {
             AccountID = Guid.NewGuid();
             Owner = owner;
             OverdraftLimit = overdraftLimit;
             Balance = initialBalance;
-            InterestRate = 3.00F;
-            OverdraftInterest = 3.25F;
+            InterestRate = 3.00M;
+            OverdraftInterest = 3.25M;
         }
         public override Message CalculateInterest()
         {
@@ -44,13 +44,13 @@ namespace ExemptionAssignment.Models
             return Message.CalculatedInterestUpdate;
         }
 
-        public override Message Credit(float amount)
+        public override Message Credit(decimal amount)
         {
             Balance += amount;
             return Message.AccountCreditSuccess;
         }
 
-        public override Message Debit(float amount)
+        public override Message Debit(decimal amount)
         {
             if (amount > Balance + OverdraftLimit)
             {

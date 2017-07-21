@@ -23,6 +23,7 @@ namespace ExemptionAssignment.Models
         NoPrivateCustomersExist,
         NoBusinessCustomersExist,
         NoCustomersExist,
-        AmountMustBeGreaterThanZero
+        AmountMustBeGreaterThanZero,
+        ResetDebitCounter
     }
 }

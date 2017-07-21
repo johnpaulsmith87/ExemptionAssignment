@@ -8,8 +8,8 @@ namespace ExemptionAssignment.Models
     public class NewBusinessAccountViewModel
     {
         public List<BusinessCustomer> CustomerList { get; set; }
-        public float InitialBalance { get; set; }
-        public float OverdraftLimit { get; set; }
+        public decimal InitialBalance { get; set; }
+        public decimal OverdraftLimit { get; set; }
         public string DisplayMessage { get; set; }
     }
 }

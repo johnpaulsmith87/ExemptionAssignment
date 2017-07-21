@@ -291,7 +291,7 @@ namespace ExemptionAssignment.Controllers
                 InterestRate = account.InterestRate,
                 Balance = account.Balance,
             };
-            if(message != null)
+            if (message != null)
             {
                 vm.Message = (Message)message;
             }
@@ -326,26 +326,112 @@ namespace ExemptionAssignment.Controllers
             Utility.Utility.SaveBankData(_env.WebRootPath, bank);
             return RedirectToAction("ViewSavingsAccount", "Account", new { id = account.AccountID, message = result });
         }
-        //[HttpGet]
-        //public IActionResult ViewBonusSavingsAccount(Guid id)
-        //{
-
-        //}
-        //[HttpPost]
-        //public IActionResult ViewBonusSavingsAccount()
-        //{
-
-        //}
-        //[HttpGet]
-        //public IActionResult ViewOverdraftAccount(Guid id)
-        //{
-
-        //}
-        //[HttpPost]
-        //public IActionResult ViewOverdraftAccount()
-        //{
-
-        //}
+        [HttpGet]
+        public IActionResult ViewBonusSavingsAccount(Guid id, Message? message)
+        {
+            //get account from file. populate view model
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BonusSavingsAccounts.Single(sa => sa.AccountID == id);
+            var vm = new ViewBonusSavingsAccountViewModel()
+            {
+                AccountID = account.AccountID,
+                InterestRate = account.InterestRate,
+                Balance = account.Balance,
+                LastDebit = account.LastDebit
+            };
+            if (message != null)
+            {
+                vm.Message = (Message)message;
+            }
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult BonusSavingsAccountCredit(ViewSavingsAccountViewModel vm)
+        {
+            //pull acc from file, perform operation, then redirect to page with result!
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BonusSavingsAccounts.Single(sa => sa.AccountID == vm.AccountID);
+            var result = account.Credit(vm.CreditAmount);
+            //now save to file
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewBonusSavingsAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult BonusSavingsAccountDebit(ViewSavingsAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BonusSavingsAccounts.Single(sa => sa.AccountID == vm.AccountID);
+            var result = account.Debit(vm.DebitAmount);
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewBonusSavingsAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult BonusSavingsAccountCalcInterest(ViewSavingsAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BonusSavingsAccounts.Single(sa => sa.AccountID == vm.AccountID);
+            var result = account.CalculateInterest();
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewBonusSavingsAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult BonusSavingsAccountResetLastDebit(ViewSavingsAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.BonusSavingsAccounts.Single(sa => sa.AccountID == vm.AccountID);
+            var result = account.ResetDebitCounter();
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewBonusSavingsAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpGet]
+        public IActionResult ViewOverdraftAccount(Guid id, Message? message)
+        {
+            //get account from file. populate view model
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.OverdraftAccounts.Single(oa => oa.AccountID == id);
+            var vm = new ViewOverdraftAccountViewModel()
+            {
+                AccountID = account.AccountID,
+                InterestRate = account.InterestRate,
+                Balance = account.Balance,
+                OverdraftLimit = account.OverdraftLimit,
+                OverdraftInterest = account.OverdraftInterest
+            };
+            if (message != null)
+            {
+                vm.Message = (Message)message;
+            }
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult OverdraftAccountCredit(ViewOverdraftAccountViewModel vm)
+        {
+            //pull acc from file, perform operation, then redirect to page with result!
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.OverdraftAccounts.Single(oa => oa.AccountID == vm.AccountID);
+            var result = account.Credit(vm.CreditAmount);
+            //now save to file
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewOverdraftAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult OverdraftAccountDebit(ViewOverdraftAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.OverdraftAccounts.Single(oa => oa.AccountID == vm.AccountID);
+            var result = account.Debit(vm.DebitAmount);
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewOverdraftAccount", "Account", new { id = account.AccountID, message = result });
+        }
+        [HttpPost]
+        public IActionResult OverdraftAccountCalcInterest(ViewSavingsAccountViewModel vm)
+        {
+            var bank = Utility.Utility.GetBankData(_env.WebRootPath);
+            var account = bank.OverdraftAccounts.Single(oa => oa.AccountID == vm.AccountID);
+            var result = account.CalculateInterest();
+            Utility.Utility.SaveBankData(_env.WebRootPath, bank);
+            return RedirectToAction("ViewOverdraftAccount", "Account", new { id = account.AccountID, message = result });
+        }
         //[HttpGet]
         //public IActionResult ViewBusinessAccount(Guid id)
         //{

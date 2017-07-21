@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ExemptionAssignment.Models
 {
-    public class ViewSavingsAccountViewModel
+    public class ViewOverdraftAccountViewModel
     {
         public decimal CreditAmount { get; set; }
         public decimal DebitAmount { get; set; }
@@ -13,5 +13,8 @@ namespace ExemptionAssignment.Models
         public decimal InterestRate { get; set; }
         public Guid AccountID { get; set; }
         public Message Message { get; set; }
+        public decimal OverdraftLimit { get; set; }
+
+        public decimal OverdraftInterest { get; set; }
     }
 }
